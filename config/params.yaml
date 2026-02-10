@@ -1,0 +1,4 @@
+thread_group: plugin
+allow_multiple_instances: false
+is_unloadable: true
+is_loadable: true
