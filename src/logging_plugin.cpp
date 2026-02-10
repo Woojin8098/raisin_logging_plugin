@@ -16,7 +16,7 @@ namespace plugin
 LoggingPlugin::LoggingPlugin(
   raisim::World & world, raisim::RaisimServer & server,
   raisim::World & worldSim, raisim::RaisimServer & serverSim, GlobalResource & globalResource)
-: Node("raisin_vicon_plugin", globalResource.network), Plugin(world, server, worldSim, serverSim, globalResource)
+: Node("raisin_logging_plugin", globalResource.network), Plugin(world, server, worldSim, serverSim, globalResource)
 {
   pluginType_ = PluginType::CUSTOM;
 
@@ -26,7 +26,8 @@ LoggingPlugin::LoggingPlugin(
   jointStatesSubscriber_ = createSubscriber<raisin_interfaces::msg::JointStates>("joint_states", nullptr,
     [this](const raisin_interfaces::msg::JointStates::SharedPtr msg) { this->jointStatesCallback(msg); });
 
-  viconSubscriber_ = createSubscriber<raisin_interfaces::msg::Pose>("base_link", nullptr,
+  auto con = globalResource.network->connect("vicon");
+  viconSubscriber_ = createSubscriber<raisin_interfaces::msg::Pose>("base_link", con,
     [this](const raisin_interfaces::msg::Pose::SharedPtr msg) { this->viconCallback(msg); });
 }
 
