@@ -26,8 +26,11 @@ LoggingPlugin::LoggingPlugin(
   jointStatesSubscriber_ = createSubscriber<raisin_interfaces::msg::JointStates>("joint_states", nullptr,
     [this](const raisin_interfaces::msg::JointStates::SharedPtr msg) { this->jointStatesCallback(msg); });
 
-  auto con = globalResource.network->connect("vicon");
-  viconSubscriber_ = createSubscriber<raisin_interfaces::msg::Pose>("base_link", con,
+  auto connections =
+        raisin::GlobalResource::getInstance().network->getConnection("raisin_vicon_node");
+      
+
+  viconSubscriber_ = createSubscriber<raisin_interfaces::msg::Pose>("base_link", connections,
     [this](const raisin_interfaces::msg::Pose::SharedPtr msg) { this->viconCallback(msg); });
 }
 
