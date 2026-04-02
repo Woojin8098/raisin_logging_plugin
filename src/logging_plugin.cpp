@@ -53,8 +53,7 @@ bool LoggingPlugin::init()
       "linAcc", measuredLinearAcceleration_,
       "jointAng", jointPosition_,
       "jointVel", jointVelocity_,
-      "prevTarget", jointTargetPrev_,
-      "genForce", generalizedForce_,
+      "pTarget", jointTarget_,
       "viconPos", viconPos,
       "viconQuat", viconQuat
       );
@@ -65,7 +64,7 @@ bool LoggingPlugin::advance()
 {
   robotHub_->lockMutex();
   robotHub_->getPdTarget(posTarget_, velTarget_);
-  generalizedForce_ = robotHub_->getGeneralizedForce().e().tail(12);
+  jointTarget_ = posTarget_.tail(12);
   robotHub_->unlockMutex();
 
   dataLogger_.append(
@@ -75,13 +74,11 @@ bool LoggingPlugin::advance()
       measuredLinearAcceleration_,
       jointPosition_,
       jointVelocity_,
-      jointTargetPrev_,
-      generalizedForce_,
+      jointTarget_,
       viconPos,
       viconQuat
       );
 
-  jointTargetPrev_ = posTarget_.tail(12);
 
   return true;
 }

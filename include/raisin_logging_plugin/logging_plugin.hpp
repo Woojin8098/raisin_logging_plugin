@@ -55,8 +55,7 @@ private:
 
   Eigen::VectorXd posTarget_ = Eigen::VectorXd::Zero(19);
   Eigen::VectorXd velTarget_ = Eigen::VectorXd::Zero(18);
-  Eigen::Matrix<double, 12, 1> jointTargetPrev_ = Eigen::Matrix<double, 12, 1>::Zero();
-  Eigen::Matrix<double, 12, 1> generalizedForce_ = Eigen::Matrix<double, 12, 1>::Zero();
+  Eigen::Matrix<double, 12, 1> jointTarget_ = Eigen::Matrix<double, 12, 1>::Zero();
 
   std::shared_ptr<raisin::Subscriber<raisin_interfaces::msg::Pose>> viconSubscriber_;
   Eigen::Matrix<double, 3, 1> viconPos = Eigen::Matrix<double, 3, 1>::Zero();
